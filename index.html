@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>antiX Linux im Browser (Experiment)</title>
-    <!-- Zuverlässiges v86-Skript ohne Cloudflare-Sperren -->
+    <!-- Vollständige und korrekte URL ohne Abkürzungen -->
     <script src="https://jsdelivr.net"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
 
     <h1>antiX Linux startet im Browser...</h1>
     <p style="color: #aaa; max-width: 600px; margin: 10px auto;">
-        Anmerkung: Die ISO wird im Hintergrund geladen. Bei großen Dateien kann es mehrere Minuten dauern, bis die ersten Ausgaben auf dem Bildschirm erscheinen!
+        Anmerkung: Die ISO wird im Hintergrund geladen. Bei 500 MB kann es mehrere Minuten dauern, bis die ersten Ausgaben erscheinen!
     </p>
 
     <div id="screen_container" style="display:inline-block; background:black; padding:10px; border:2px solid #444;">
@@ -22,7 +22,7 @@
     <script>
         window.onload = function() {
             var emulator = new V86Starter({
-                // Genutzte stabile Web-Quellen der neueren Version 0.14.14
+                // Vollständige Pfade für WebAssembly und BIOS
                 wasm_path: "https://jsdelivr.net",
                 memory_size: 1024 * 1024 * 1024, // 1 GB RAM
                 vga_memory_size: 32 * 1024 * 1024,
