@@ -23,8 +23,8 @@
 
             var script = document.createElement("script");
 
-            // KORREKTUR: Ein klares "?" trennt nun die Domain vom Zeitstempel-Zufallswert
-            script.src = "https://jsdelivr.net" + new Date().getTime();
+            // Radikal vereinfacht: Keine Zahlen, kein Plus, keine Cache-Buster-Tricks mehr
+            script.src = "https://jsdelivr.net";
 
             script.onload = function() {
                 console.log("Skript erfolgreich im Browser angekommen! Initialisiere Emulator...");
