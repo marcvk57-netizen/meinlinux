@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>antiX Linux im Browser</title>
+    <!-- KORRIGIERTER LINK: Lädt das Skript nun fehlerfrei aus dem Netz -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
+
+    <h1>antiX Linux startet im Browser...</h1>
+    <p style="color: #aaa;">Bitte Geduld, der erste Startvorgang kann einen Moment dauern.</p>
+
+    <div id="screen_container" style="display:inline-block; background:black; padding:10px; border:2px solid #444;">
+        <div style="white-space: pre; font: 14px monospace; line-height: 14px; color: white; text-align:left;"></div>
+        <canvas></canvas>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // Startet den Emulator mit den korrekten Online-Quellen
+            var emulator = new V86Starter({
+                wasm_path: "https://jsdelivr.net",
+                memory_size: 1024 * 1024 * 1024, // 1 GB RAM
+                vga_memory_size: 32 * 1024 * 1024,
+
+                bios: { url: "https://jsdelivr.net" },
+                vga_bios: { url: "https://jsdelivr.net" },
+
+                cdrom: { url: "antix.iso", async: true },
+
+                autostart: true,
+                screen_container: document.getElementById("screen_container"),
+            });
+        };
+    </script>
+</body>
+</html>
