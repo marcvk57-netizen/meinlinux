@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>antiX Linux im Browser (Experiment)</title>
-    <!-- Wechsel auf cdnjs: Garantiert die richtige JavaScript-Datei -->
-    <script src="https://cloudflare.com"></script>
+    <!-- Zuverlässiges v86-Skript ohne Cloudflare-Sperren -->
+    <script src="https://jsdelivr.net"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
 
@@ -22,13 +22,13 @@
     <script>
         window.onload = function() {
             var emulator = new V86Starter({
-                // Wasm und BIOS-Pfade ebenfalls auf das stabile cdnjs-Netzwerk umgestellt
-                wasm_path: "https://cloudflare.com",
+                // Genutzte stabile Web-Quellen der neueren Version 0.14.14
+                wasm_path: "https://jsdelivr.net",
                 memory_size: 1024 * 1024 * 1024, // 1 GB RAM
                 vga_memory_size: 32 * 1024 * 1024,
 
-                bios: { url: "https://cloudflare.com" },
-                vga_bios: { url: "https://cloudflare.com" },
+                bios: { url: "https://jsdelivr.net" },
+                vga_bios: { url: "https://jsdelivr.net" },
 
                 // Deine ISO von archive.org
                 cdrom: { url: "https://archive.org/download/sim_elo1.0/sim_elo1.0.iso", async: true },
