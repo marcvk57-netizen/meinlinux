@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>antiX Linux im Browser</title>
-    <!-- KORRIGIERTER PFAD: Lädt die echte v86-Datei fehlerfrei aus dem npm-Paket -->
-    <script src="https://unpkg.com"></script>
+    <!-- Lädt das echte Core-Skript direkt aus dem offiziellen v86-Repository -->
+    <script src="https://githack.com"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
 
@@ -24,14 +24,15 @@
             console.log("v86-Initialisierung gestartet...");
             try {
                 var emulator = new V86Starter({
-                    // Korrigierte Pfade direkt aus dem funktionierenden unpkg-Verzeichnis
-                    wasm_path: "https://unpkg.com",
+                    // Alle Pfade zeigen nun auf die echten, unveränderten Originaldateien
+                    wasm_path: "https://githack.com",
                     memory_size: 512 * 1024 * 1024,
                     vga_memory_size: 16 * 1024 * 1024,
 
-                    bios: { url: "https://unpkg.com" },
-                    vga_bios: { url: "https://unpkg.com" },
+                    bios: { url: "https://githack.com" },
+                    vga_bios: { url: "https://githack.com" },
 
+                    // Deine ISO von archive.org
                     cdrom: { url: "https://archive.org/download/sim_elo1.0/sim_elo1.0.iso", async: true },
 
                     autostart: true,
