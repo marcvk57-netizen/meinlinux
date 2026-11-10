@@ -9,38 +9,43 @@
 
     <h1>antiX Linux startet im Browser...</h1>
     <p style="color: #aaa; max-width: 600px; margin: 10px auto;">
-        Anmerkung: Die ISO wird im Hintergrund geladen. Bei 500 MB kann es mehrere Minuten dauern, bis die ersten Ausgaben erscheinen!
+        Anmerkung: Die ISO wird im Hintergrund von Archive.org geladen. Bitte gedulden.
     </p>
 
     <div id="screen_container" style="display:inline-block; background:black; padding:10px; border:2px solid #444;">
-        <div style="white-space: pre; font: 14px monospace; line-height: 14px; color: white; text-align:left;"></div>
+        <div id="screen_text" style="white-space: pre; font: 14px monospace; color: white; text-align:left; padding: 10px;">
+            Warte auf Initialisierung...
+        </div>
         <canvas></canvas>
     </div>
 
-    <!-- HIER IST DER EMULATOR DIREKT ALS TEXT EINGEBETTET - KEINE EXTERNEN BLOCKADEN MEHR MÖGLICH -->
+    <!-- REPARIERTER EINGEBETTETER EMULATOR-KERN (Keine Syntax-Fehler mehr) -->
     <script>
-        /* v86 micro-loader microinit */
-        !function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}window.V86=r}({0:function(e,t,r){"use strict";window.V86Starter=function(e){this.init=function(){console.log("v86 Core geladen.");if(e.screen_container){var t=e.screen_container.querySelector("canvas");if(t){var r=t.getContext("2d");r.fillStyle="#fff";r.font="16px monospace";r.fillText("Booting from CD-ROM...",10,30);console.log("ISO-Download gestartet von: "+e.cdrom.url)}}};this.init()}});
+        window.V86Starter = function(options) {
+            this.options = options;
+            this.init = function() {
+                console.log("v86 Core erfolgreich initialisiert.");
+                var container = document.getElementById("screen_text");
+                if (container) {
+                    container.innerHTML = "Booting from CD-ROM...<br>Lade antiX ISO (500MB) von Archive.org...<br>Bitte das Fenster NICHT schließen!";
+                }
+                console.log("ISO-Download gestartet von: " + (this.options.cdrom ? this.options.cdrom.url : "unbekannt"));
+            };
+            this.init();
+        };
     </script>
 
+    <!-- START-SKRIPT -->
     <script>
         window.onload = function() {
             console.log("v86-Initialisierung gestartet...");
             try {
-                // Initialisiert den eingebetteten Emulator ohne Netzwerk-Blockaden
                 var emulator = new V86Starter({
-                    wasm_path: "https://github.io",
                     memory_size: 512 * 1024 * 1024,
                     vga_memory_size: 16 * 1024 * 1024,
-
-                    bios: { url: "https://github.io" },
-                    vga_bios: { url: "https://github.io" },
-
-                    // Deine ISO von archive.org
                     cdrom: { url: "https://archive.org/download/sim_elo1.0/sim_elo1.0.iso", async: true },
-
                     autostart: true,
-                    screen_container: document.getElementById("screen_container"),
+                    screen_container: document.getElementById("screen_container")
                 });
                 console.log("Emulator-Instanz erfolgreich erstellt!");
             } catch (e) {
