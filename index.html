@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>antiX Linux im Browser (Experiment)</title>
-    <!-- Lädt deine vorhandene libv86.js als Modul -->
-    <script type="module" src="libv86.js"></script>
+    <!-- Zwingt den Browser, die Isolation aufzuheben -->
+    <script src="https://jsdelivr.net"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
 
@@ -20,7 +20,6 @@
     </div>
 
     <script>
-        // Eine Schleife, die prüft, ob V86Starter durch dein Skript im Hintergrund bereitgestellt wurde
         function starteEmulatorWennBereit() {
             console.log("Prüfe Verfügbarkeit von V86Starter...");
 
@@ -45,13 +44,11 @@
                     console.error("Kritischer Fehler beim Emulator-Start:", e);
                 }
             } else {
-                // Wenn V86Starter noch nicht geladen ist, warte 250 Millisekunden und versuche es erneut
                 console.log("V86Starter lädt noch... Warte kurz.");
                 setTimeout(starteEmulatorWennBereit, 250);
             }
         }
 
-        // Startet die Überprüfung, sobald das Dokument geladen ist
         window.onload = starteEmulatorWennBereit;
     </script>
 </body>
