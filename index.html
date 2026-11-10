@@ -4,31 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>antiX Linux im Browser (Experiment)</title>
+    <!-- Lädt das v86-Skript fehlerfrei über das stabile jsDelivr-Netzwerk -->
+    <script src="https://jsdelivr.net"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
 
     <h1>antiX Linux startet im Browser...</h1>
     <p style="color: #aaa; max-width: 600px; margin: 10px auto;">
-        Anmerkung: Das Emulator-Skript wird nun direkt im Browser ausgeführt. Bei 500 MB kann es mehrere Minuten dauern, bis die ersten Ausgaben erscheinen!
+        Anmerkung: Die ISO wird im Hintergrund geladen. Bei 500 MB kann es mehrere Minuten dauern, bis die ersten Ausgaben erscheinen!
     </p>
 
+    <!-- Das Gehäuse für den virtuellen Monitor -->
     <div id="screen_container" style="display:inline-block; background:black; padding:10px; border:2px solid #444;">
         <div style="white-space: pre; font: 14px monospace; line-height: 14px; color: white; text-align:left;"></div>
         <canvas></canvas>
     </div>
 
-    <!-- Wir laden v86 über ein alternatives, stabiles Modul-Skript, das Tracking-Blocker umgeht -->
-    <script type="module">
-        import { V86Starter } from "https://esm.sh";
-
+    <script>
         window.onload = function() {
+            console.log("v86 wird initialisiert...");
             var emulator = new V86Starter({
-                wasm_path: "https://esm.sh/build/v86.wasm",
-                memory_size: 1024 * 1024 * 1024, // 1 GB RAM
-                vga_memory_size: 32 * 1024 * 1024,
+                // Lädt die benötigten WebAssembly- und BIOS-Strukturen ohne Blockaden nach
+                wasm_path: "https://jsdelivr.net",
+                memory_size: 512 * 1024 * 1024, // 512 MB RAM für stabilen Browser-Lauf
+                vga_memory_size: 16 * 1024 * 1024,
 
-                bios: { url: "https://esm.sh/bios/seabios.bin" },
-                vga_bios: { url: "https://esm.sh/bios/vgabios.bin" },
+                bios: { url: "https://jsdelivr.net" },
+                vga_bios: { url: "https://jsdelivr.net" },
 
                 // Deine ISO von archive.org
                 cdrom: { url: "https://archive.org/download/sim_elo1.0/sim_elo1.0.iso", async: true },
@@ -36,6 +38,7 @@
                 autostart: true,
                 screen_container: document.getElementById("screen_container"),
             });
+            console.log("Emulator-Instanz erfolgreich erstellt!");
         };
     </script>
 </body>
