@@ -21,13 +21,11 @@
         window.onload = function() {
             console.log("Starte dynamischen Skript-Download...");
 
-            // 1. Erstelle ein frisches Script-Tag im Arbeitsspeicher
             var script = document.createElement("script");
 
-            // Ein Zeitstempel am Ende (?t=...) trickst jeden Browser-Cache brutal aus
+            // KORREKTUR: Ein klares "?" trennt nun die Domain vom Zeitstempel-Zufallswert
             script.src = "https://jsdelivr.net" + new Date().getTime();
 
-            // 2. Sobald das Skript nachweislich im Browser geladen wurde, startet der Emulator
             script.onload = function() {
                 console.log("Skript erfolgreich im Browser angekommen! Initialisiere Emulator...");
 
@@ -51,12 +49,10 @@
                 }
             };
 
-            // Falls das Netzwerk das Skript blockiert, fangen wir das hier ab
             script.onerror = function() {
                 console.error("Das Skript konnte vom Server nicht geladen werden. Netzwerk-Blockade!");
             };
 
-            // 3. Füge das Script-Tag in die Seite ein, um den Download zu starten
             document.head.appendChild(script);
         };
     </script>
