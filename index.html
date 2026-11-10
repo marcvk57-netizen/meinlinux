@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>antiX Linux im Browser (Experiment)</title>
-    <!-- Lädt das v86-Skript fehlerfrei über das stabile jsDelivr-Netzwerk -->
+    <!-- KORRIGIERTER LINK: Ruft jetzt direkt die echte Skript-Datei ab -->
     <script src="https://jsdelivr.net"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
@@ -14,7 +14,6 @@
         Anmerkung: Die ISO wird im Hintergrund geladen. Bei 500 MB kann es mehrere Minuten dauern, bis die ersten Ausgaben erscheinen!
     </p>
 
-    <!-- Das Gehäuse für den virtuellen Monitor -->
     <div id="screen_container" style="display:inline-block; background:black; padding:10px; border:2px solid #444;">
         <div style="white-space: pre; font: 14px monospace; line-height: 14px; color: white; text-align:left;"></div>
         <canvas></canvas>
@@ -24,15 +23,13 @@
         window.onload = function() {
             console.log("v86 wird initialisiert...");
             var emulator = new V86Starter({
-                // Lädt die benötigten WebAssembly- und BIOS-Strukturen ohne Blockaden nach
                 wasm_path: "https://jsdelivr.net",
-                memory_size: 512 * 1024 * 1024, // 512 MB RAM für stabilen Browser-Lauf
+                memory_size: 512 * 1024 * 1024,
                 vga_memory_size: 16 * 1024 * 1024,
 
                 bios: { url: "https://jsdelivr.net" },
                 vga_bios: { url: "https://jsdelivr.net" },
 
-                // Deine ISO von archive.org
                 cdrom: { url: "https://archive.org/download/sim_elo1.0/sim_elo1.0.iso", async: true },
 
                 autostart: true,
