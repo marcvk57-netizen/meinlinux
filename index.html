@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>antiX Linux im Browser (Experiment)</title>
+    <!-- Über das unpkg-Verzeichnis lädt das Skript ohne jegliche jsdelivr-Blockaden -->
+    <script src="https://unpkg.com"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
 
@@ -19,41 +21,26 @@
 
     <script>
         window.onload = function() {
-            console.log("Starte dynamischen Skript-Download...");
+            console.log("v86 wird über stabiles unpkg-Netzwerk initialisiert...");
+            try {
+                var emulator = new V86Starter({
+                    wasm_path: "https://unpkg.com",
+                    memory_size: 512 * 1024 * 1024,
+                    vga_memory_size: 16 * 1024 * 1024,
 
-            var script = document.createElement("script");
+                    bios: { url: "https://unpkg.com" },
+                    vga_bios: { url: "https://unpkg.com" },
 
-            // Radikal vereinfacht: Keine Zahlen, kein Plus, keine Cache-Buster-Tricks mehr
-            script.src = "https://jsdelivr.net";
+                    // Deine funktionierende ISO von archive.org
+                    cdrom: { url: "https://archive.org/download/sim_elo1.0/sim_elo1.0.iso", async: true },
 
-            script.onload = function() {
-                console.log("Skript erfolgreich im Browser angekommen! Initialisiere Emulator...");
-
-                try {
-                    var emulator = new V86Starter({
-                        wasm_path: "https://jsdelivr.net",
-                        memory_size: 512 * 1024 * 1024,
-                        vga_memory_size: 16 * 1024 * 1024,
-
-                        bios: { url: "https://jsdelivr.net" },
-                        vga_bios: { url: "https://jsdelivr.net" },
-
-                        cdrom: { url: "https://archive.org/download/sim_elo1.0/sim_elo1.0.iso", async: true },
-
-                        autostart: true,
-                        screen_container: document.getElementById("screen_container"),
-                    });
-                    console.log("Emulator-Instanz erfolgreich erstellt!");
-                } catch(e) {
-                    console.error("Fehler beim Starten des Emulators:", e);
-                }
-            };
-
-            script.onerror = function() {
-                console.error("Das Skript konnte vom Server nicht geladen werden. Netzwerk-Blockade!");
-            };
-
-            document.head.appendChild(script);
+                    autostart: true,
+                    screen_container: document.getElementById("screen_container"),
+                });
+                console.log("Emulator-Instanz erfolgreich erstellt!");
+            } catch (e) {
+                console.error("Fehler beim Starten des Emulators:", e);
+            }
         };
     </script>
 </body>
