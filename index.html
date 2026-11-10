@@ -1,16 +1,19 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>antiX Linux im Browser</title>
-    <!-- KORRIGIERTER LINK: Lädt das Skript nun fehlerfrei aus dem Netz -->
-    <script src="https://jsdelivr.net"></script>
+    <title>antiX Linux im Browser (Experiment)</title>
+    <!-- Lädt das echte v86-Emulations-Skript -->
+    <script src="https://copy.sh"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
 
     <h1>antiX Linux startet im Browser...</h1>
-    <p style="color: #aaa;">Bitte Geduld, der erste Startvorgang kann einen Moment dauern.</p>
+    <p style="color: #aaa; max-width: 600px; margin: 10px auto;">
+        Anmerkung: Die ISO wird im Hintergrund geladen. Bei großen Dateien kann es mehrere Minuten dauern, bis die ersten Ausgaben auf dem Bildschirm erscheinen!
+    </p>
 
+    <!-- Das Gehäuse für den virtuellen Monitor -->
     <div id="screen_container" style="display:inline-block; background:black; padding:10px; border:2px solid #444;">
         <div style="white-space: pre; font: 14px monospace; line-height: 14px; color: white; text-align:left;"></div>
         <canvas></canvas>
@@ -18,15 +21,16 @@
 
     <script>
         window.onload = function() {
-            // Startet den Emulator mit den korrekten Online-Quellen
+            // Startet den Emulator mit den offiziellen, funktionierenden BIOS-Quellen von copy.sh
             var emulator = new V86Starter({
-                wasm_path: "https://jsdelivr.net",
-                memory_size: 1024 * 1024 * 1024, // 1 GB RAM
+                wasm_path: "https://copy.sh",
+                memory_size: 1024 * 1024 * 1024, // 1 GB RAM zugewiesen
                 vga_memory_size: 32 * 1024 * 1024,
 
-                bios: { url: "https://jsdelivr.net" },
-                vga_bios: { url: "https://jsdelivr.net" },
+                bios: { url: "https://copy.sh" },
+                vga_bios: { url: "https://copy.sh" },
 
+                // Hier ist deine antiX ISO hinterlegt (Achtung: Lädt die gesamte Datei im Hintergrund!)
                 cdrom: { url: "https://drive.google.com/file/d/1bnDbEmOa64gOI-SjhJv3iaXkGrUheZZV/view?usp=sharing", async: true },
 
                 autostart: true,
