@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>antiX Linux im Browser (Experiment)</title>
-    <!-- Zwingt den Browser, die Isolation aufzuheben -->
-    <script src="https://jsdelivr.net"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
 
@@ -20,11 +18,19 @@
     </div>
 
     <script>
-        function starteEmulatorWennBereit() {
-            console.log("Prüfe Verfügbarkeit von V86Starter...");
+        window.onload = function() {
+            console.log("Starte dynamischen Skript-Download...");
 
-            if (typeof V86Starter !== "undefined") {
-                console.log("V86Starter gefunden! Initialisiere...");
+            // 1. Erstelle ein frisches Script-Tag im Arbeitsspeicher
+            var script = document.createElement("script");
+
+            // Ein Zeitstempel am Ende (?t=...) trickst jeden Browser-Cache brutal aus
+            script.src = "https://jsdelivr.net" + new Date().getTime();
+
+            // 2. Sobald das Skript nachweislich im Browser geladen wurde, startet der Emulator
+            script.onload = function() {
+                console.log("Skript erfolgreich im Browser angekommen! Initialisiere Emulator...");
+
                 try {
                     var emulator = new V86Starter({
                         wasm_path: "https://jsdelivr.net",
@@ -41,15 +47,18 @@
                     });
                     console.log("Emulator-Instanz erfolgreich erstellt!");
                 } catch(e) {
-                    console.error("Kritischer Fehler beim Emulator-Start:", e);
+                    console.error("Fehler beim Starten des Emulators:", e);
                 }
-            } else {
-                console.log("V86Starter lädt noch... Warte kurz.");
-                setTimeout(starteEmulatorWennBereit, 250);
-            }
-        }
+            };
 
-        window.onload = starteEmulatorWennBereit;
+            // Falls das Netzwerk das Skript blockiert, fangen wir das hier ab
+            script.onerror = function() {
+                console.error("Das Skript konnte vom Server nicht geladen werden. Netzwerk-Blockade!");
+            };
+
+            // 3. Füge das Script-Tag in die Seite ein, um den Download zu starten
+            document.head.appendChild(script);
+        };
     </script>
 </body>
 </html>
