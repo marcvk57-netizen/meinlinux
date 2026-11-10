@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>antiX Linux im Browser (Experiment)</title>
-    <!-- Lädt das Skript jetzt direkt lokal aus deinem Repository ohne CDN-Fehler -->
-    <script src="libv86.js"></script>
+    <!-- Lädt deine lokale Loader-Datei als Modul -->
+    <script type="module" src="libv86.js"></script>
 </head>
 <body style="margin:0; background:#111; color:white; font-family:sans-serif; text-align:center; padding-top: 20px;">
 
@@ -20,23 +20,28 @@
     </div>
 
     <script>
-        window.onload = function() {
+        // Erhöhte Verzögerung, damit das Modul im Hintergrund Zeit hat zu laden
+        setTimeout(function() {
             console.log("v86 wird initialisiert...");
-            var emulator = new V86Starter({
-                wasm_path: "https://jsdelivr.net",
-                memory_size: 512 * 1024 * 1024,
-                vga_memory_size: 16 * 1024 * 1024,
+            try {
+                var emulator = new V86Starter({
+                    wasm_path: "https://jsdelivr.net",
+                    memory_size: 512 * 1024 * 1024,
+                    vga_memory_size: 16 * 1024 * 1024,
 
-                bios: { url: "https://jsdelivr.net" },
-                vga_bios: { url: "https://jsdelivr.net" },
+                    bios: { url: "https://jsdelivr.net" },
+                    vga_bios: { url: "https://jsdelivr.net" },
 
-                cdrom: { url: "https://archive.org/download/sim_elo1.0/sim_elo1.0.iso", async: true },
+                    cdrom: { url: "https://archive.org/download/sim_elo1.0/sim_elo1.0.iso", async: true },
 
-                autostart: true,
-                screen_container: document.getElementById("screen_container"),
-            });
-            console.log("Emulator-Instanz erfolgreich erstellt!");
-        };
+                    autostart: true,
+                    screen_container: document.getElementById("screen_container"),
+                });
+                console.log("Emulator-Instanz erfolgreich erstellt!");
+            } catch(e) {
+                console.error("Emulator konnte nicht gestartet werden. Warte auf Skript-Download...");
+            }
+        }, 1500); // 1,5 Sekunden Sicherheits-Wartezeit
     </script>
 </body>
 </html>
